@@ -26,6 +26,20 @@ public class Grid {
         String[] firstCoordinates = {coordinates[0], coordinates[1]};
         Ship ship = new Ship(firstCoordinates, coordinates[2]);
         String output = "";
+        for (int i = 0; i < instructions[0].length(); i++) {
+            switch(String.valueOf(instructions[0].charAt(i)))
+            {
+                case "R":
+                    ship.updateDirection("R");
+                    break;
+                case "L":
+                    ship.updateDirection("L");
+                    break;
+                case "F":
+                    //
+                    break;
+            }
+        }
         return output;
     }
 }
