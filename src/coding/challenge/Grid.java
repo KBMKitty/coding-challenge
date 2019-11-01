@@ -36,7 +36,7 @@ public class Grid {
                     ship.updateDirection("L");
                     break;
                 case "F":
-                    //
+                    ship.moveForward(xaxis, yaxis);
                     break;
             }
         }

@@ -8,11 +8,23 @@ public class CodingChallenge {
 
     public static void main(String[] args) throws IOException {
         ReadFile file = new ReadFile();
-        System.out.println(file.outputFile());
+        //System.out.println(file.outputFile());
         List<String[]> input = file.outputFile();
         Grid grid = new Grid(input.get(0));
-        for (int i = 1; i < input.size(); i=i+2) {
-            String newPosition = grid.calculatePosition(input.get(i), input.get(i+1));
+        
+        int count = 1;
+        while (count<input.size()-1){
+            if(input.get(count)[0].isEmpty())
+            {
+                count++;
+            }
+            else
+            {
+                String status = grid.calculatePosition(input.get(count), 
+                        input.get(count+1));
+                count=count+2;
+            }
+            
         }
         
     }
