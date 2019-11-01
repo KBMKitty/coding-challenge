@@ -21,8 +21,10 @@ public class Grid {
         xaxis = Integer.parseInt(size[0]);
         yaxis = Integer.parseInt(size[1]);
     }
-    public String calculatePosition(String[] coordinates)
+    public String calculatePosition(String[] coordinates, String[] instructions)
     {
+        String[] firstCoordinates = {coordinates[0], coordinates[1]};
+        Ship ship = new Ship(firstCoordinates, coordinates[2]);
         String output = "";
         return output;
     }
