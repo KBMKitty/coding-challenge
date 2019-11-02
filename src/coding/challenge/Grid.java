@@ -1,20 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package coding.challenge;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author kitty
- */
 public class Grid {
     
     int xaxis;
     int yaxis;
+    List<String[]> lostPositions = new ArrayList<>();
     
     public Grid(String[] size)
     {
@@ -25,9 +19,11 @@ public class Grid {
     {
         String[] firstCoordinates = {coordinates[0], coordinates[1]};
         Ship ship = new Ship(firstCoordinates, coordinates[2]);
-        String output = "";
-        for (int i = 0; i < instructions[0].length(); i++) {
-            switch(String.valueOf(instructions[0].charAt(i)))
+        boolean stopped = false;
+        boolean lost = false;
+        int count = 0;
+        while(!lost && !stopped && count < instructions[0].length()){
+            switch(String.valueOf(instructions[0].charAt(count)))
             {
                 case "R":
                     ship.updateDirection("R");
@@ -36,10 +32,26 @@ public class Grid {
                     ship.updateDirection("L");
                     break;
                 case "F":
-                    ship.moveForward(xaxis, yaxis);
+                    String status = ship.moveForward(xaxis, yaxis, lostPositions);
+                    if(status == "Lost")
+                    {
+                        lost = true;
+                    }
+                    else if (status == "Stopped")
+                    {
+                        stopped = true;
+                    }
                     break;
             }
+            count++;
         }
-        return output;
+        if(lost)
+        {
+            String [] position = {ship.getDirection(), 
+                String.valueOf(ship.getXCoordinate()), 
+                String.valueOf(ship.getYCoordinate())};
+            lostPositions.add(position);
+        }
+        return ship.getFinalPosition();
     }
 }

@@ -23,6 +23,7 @@ public class CodingChallenge {
                 String status = grid.calculatePosition(input.get(count), 
                         input.get(count+1));
                 count=count+2;
+                System.out.println(status);
             }
             
         }

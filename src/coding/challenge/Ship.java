@@ -17,9 +17,6 @@ public class Ship {
     int ycoordinate;
     String direction;
     String[] directions = {"N", "E", "S", "W"};
-    List<String[]> lostPositions = new ArrayList<>();
-    String[] originalCoordinates;
-    String originalDirection;
     boolean lost;
     
     public Ship(String[] coordinates, String direction)
@@ -27,9 +24,22 @@ public class Ship {
         xcoordinate = Integer.parseInt(coordinates[0]);
         ycoordinate = Integer.parseInt(coordinates[1]);
         this.direction = direction;
-        originalCoordinates = coordinates;
-        originalDirection = direction;
         lost = false;
+    }
+    
+    public int getXCoordinate()
+    {
+        return xcoordinate;
+    }
+    
+    public int getYCoordinate()
+    {
+        return ycoordinate;
+    }
+    
+    public String getDirection()
+    {
+        return direction;
     }
     
     public void updateDirection(String instruction)
@@ -70,17 +80,21 @@ public class Ship {
         
     }
     
-    public String moveForward(int gridXAxis, int gridYAxis)
+    public String moveForward(int gridXAxis, int gridYAxis, List<String[]> lostPositions)
     {
+        int originalXCoordinate = xcoordinate;
+        int originalYCoordinate = ycoordinate;
         boolean stopped = false;
         String returnValue = "";
+        String [] position = {direction, String.valueOf(ycoordinate), 
+                String.valueOf(xcoordinate)};
         //check if going off board
         for (int i = 0; i < lostPositions.size(); i++) {
-            String [] position = {direction, String.valueOf(ycoordinate), 
-                String.valueOf(xcoordinate)};
-            if(lostPositions.get(i) == position) 
+            if(lostPositions.get(i)[0].equals(position[0]) &&
+                    lostPositions.get(i)[1].equals(position[1]) &&
+                    lostPositions.get(i)[2].equals(position[2]))
             {
-                returnValue = "Stopped";
+                returnValue = "Safe";
                 stopped = true;
             }
         }
@@ -104,15 +118,28 @@ public class Ship {
                     ycoordinate < 0 || ycoordinate > gridYAxis)
             {
                 returnValue = "Lost";
+                lost = true;
+                xcoordinate = originalXCoordinate;
+                ycoordinate = originalYCoordinate;
             }
             else
             {
                 returnValue = "Safe";
             }
-            
         }
-        
         return returnValue;   
+    }
+    
+    public String getFinalPosition()
+    {
+        if(lost)
+        {
+            return (Integer.toString(xcoordinate) + " " + Integer.toString(ycoordinate) + " " + direction+ " LOST");
+        }
+        else
+        {
+            return (Integer.toString(xcoordinate) + " " + Integer.toString(ycoordinate) + " " + direction);
+        }
     }
     
     
